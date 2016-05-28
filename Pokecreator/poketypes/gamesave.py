@@ -64,4 +64,18 @@ class GameSaveGenI(PokeStructure):
 				PaddingBytes(1460)
 		]
 
+	def calcChecksum(self):
+		data = self.toString()
+		sum = reduce(lambda acc, curr: (acc + curr) & 0xFF,
+						map(ord, data[0x2598:0x3522 + 1]),
+						0)
+		return ~sum & 255
+
+	def sync(self):
+		self.checksum = self.calcChecksum()
+
+	def save(self, fileName):
+		self.sync()
+		open(fileName, "wb").write(self.toString())
+
 GameSave = GameSaveGenI

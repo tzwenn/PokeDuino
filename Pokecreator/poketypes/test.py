@@ -23,11 +23,11 @@ class TestGameSave(unittest.TestCase):
 
 	def setUp(self):
 		self.save = GameSave.fromString(open(self.batterySaveFileName).read())
-	
-	def test_player_name(self):
-		self.assertEqual(self.save.player_name.toString(), "Trainer")
 
 	def test_player_name(self):
+		self.assertEqual(self.save.player_name.toString(), "Player")
+
+	def test_rival_name(self):
 		self.assertEqual(self.save.rival_name.toString(), "Rival")
 
 if __name__ == "__main__":
