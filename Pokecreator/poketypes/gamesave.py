@@ -38,18 +38,18 @@ class GameSaveGenI(PokeStructure):
 			("pokemon_list", PokemonList),
 			("current_box", PokemonBox),
 			("checksum", ctypes.c_uint8),
-			("current_box_1", PokemonBox),
-			("current_box_2", PokemonBox),
-			("current_box_3", PokemonBox),
-			("current_box_4", PokemonBox),
-			("current_box_5", PokemonBox),
-			("current_box_6", PokemonBox),
-			("current_box_7", PokemonBox),
-			("current_box_8", PokemonBox),
-			("current_box_9", PokemonBox),
-			("current_box_10", PokemonBox),
-			("current_box_11", PokemonBox),
-			("current_box_12", PokemonBox)
+			("pc_box_1", PokemonBox),
+			("pc_box_2", PokemonBox),
+			("pc_box_3", PokemonBox),
+			("pc_box_4", PokemonBox),
+			("pc_box_5", PokemonBox),
+			("pc_box_6", PokemonBox),
+			("pc_box_7", PokemonBox),
+			("pc_box_8", PokemonBox),
+			("pc_box_9", PokemonBox),
+			("pc_box_10", PokemonBox),
+			("pc_box_11", PokemonBox),
+			("pc_box_12", PokemonBox)
 		]
 
 GameSave = GameSaveGenI

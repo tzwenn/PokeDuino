@@ -10,5 +10,13 @@ class PokeStructure(ctypes.BigEndianStructure):
 
 
 def Pokearray(length):
-	return ctypes.c_char * length
+
+	from types import MethodType
+	def asBytes(self):
+		return "".join(map(chr, self))
+
+	t = ctypes.c_uint8 * length
+	t.bytes = asBytes
+
+	return t
 

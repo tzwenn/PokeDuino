@@ -1,3 +1,5 @@
+import struct
+
 from .basic import *
 
 __all__ = ["Pokemon"]
@@ -20,8 +22,7 @@ class PokemonGenI(PokeStructure):
 			("move3", ctypes.c_uint8),
 			("move4", ctypes.c_uint8),
 			("original_trainer", ctypes.c_uint16),
-			("XPlower", ctypes.c_uint8),    # TODO: Merge with below
-			("XPupper", ctypes.c_uint16),
+			("XParr", Pokearray(3)),  
 			("hp_ev", ctypes.c_uint16),
 			("attack_ev", ctypes.c_uint16),
 			("defense_ev", ctypes.c_uint16),
@@ -39,5 +40,13 @@ class PokemonGenI(PokeStructure):
 			("speed", ctypes.c_uint16),
 			("special", ctypes.c_uint16)
 		]
+
+	@property
+	def xp(self):
+		return struct.unpack(">I", "\0" + self.XParr.bytes())[0]
+
+	@xp.setter
+	def xp(self, value):
+		self.XParr = Pokearray(3)(*map(ord, struct.pack(">I", value)[1:]))
 
 Pokemon = PokemonGenI
