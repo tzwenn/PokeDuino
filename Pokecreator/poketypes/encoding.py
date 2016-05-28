@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# Shorthands and decoded strings
 NULL       = "\0"
 JUNK       = "<JUNK>"
 TLC        = "⌜" # top left corner icon
@@ -10,6 +11,9 @@ SPACE      = " "
 PK         = "PK"
 MN         = "MN"
 POKEDOLLAR = "$"
+
+# Encoded constants
+ENDCHAR    = '\x50'
 
 
 class holdover(object):
