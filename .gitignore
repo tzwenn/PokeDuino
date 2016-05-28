@@ -1,0 +1,6 @@
+.*.swp
+.*.swo
+*.o
+*.pyc
+*~
+testdata.sav
