@@ -2,50 +2,7 @@ import enum
 
 from .basic import *
 
-class Item(PokeStructure):
-
-	_fields_ = [
-		("_index", ctypes.c_uint8),
-		("count", ctypes.c_uint8)
-	]
-
-	def __init__(self, index, count):
-		if isinstance(index, Index):
-			self._index = index.value
-		else:
-			self._index = index
-		self.count = count
-
-	@property
-	def index(self):
-		return Index(self._index)
-
-	@index.setter
-	def set_index(self, enum_index):
-		self._index = enum_index.value
-
-def ItemList(length):
-
-	class ItemListObject(PokeStructure):
-		_fields_ = [
-			("count", ctypes.c_uint8),
-			("entries", Item * length),
-			("terminator", ctypes.c_uint8)
-		]
-
-		TERMINATOR = 0xFF
-
-		def addItem(index, count=1):
-			if self.count == length:
-				raise IndexError("Item list can only store %d elements" % length)
-			self.entries[count] = Item(index, count)
-			self.count += 1
-			self.entries[count].terminator = self.TERMINATOR
-
-	return ItemListObject
-
 class Index(enum.Enum):
-
 	Nothing, \
 	MasterBall, \
 	UltraBall, \
@@ -191,4 +148,39 @@ class Index(enum.Enum):
 	TM53, \
 	TM54, \
 	TM55 = range(196, 256)
+
+class Item(PokeStructure):
+
+	_fields_ = [
+		("_index", ctypes.c_uint8),
+		("count", ctypes.c_uint8)
+	]
+
+	_enum_properties_ = [
+		("_index", Index)
+	]
+
+	def __init__(self, index, count):
+		self.index = index
+		self.count = count
+
+def ItemList(length):
+
+	class ItemListObject(PokeStructure):
+		_fields_ = [
+			("count", ctypes.c_uint8),
+			("entries", Item * length),
+			("terminator", ctypes.c_uint8)
+		]
+
+		TERMINATOR = 0xFF
+
+		def addItem(index, count=1):
+			if self.count == length:
+				raise IndexError("Item list can only store %d elements" % length)
+			self.entries[count] = Item(index, count)
+			self.count += 1
+			self.entries[count].terminator = self.TERMINATOR
+
+	return ItemListObject
 
