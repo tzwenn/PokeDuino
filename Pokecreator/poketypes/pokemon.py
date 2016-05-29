@@ -22,7 +22,7 @@ class PokemonGenI(PokeStructure):
 			("move3", ctypes.c_uint8),
 			("move4", ctypes.c_uint8),
 			("original_trainer", ctypes.c_uint16),
-			("XParr", Pokearray(3)),  
+			("_xp", Pokearray(3)),
 			("hp_ev", ctypes.c_uint16),
 			("attack_ev", ctypes.c_uint16),
 			("defense_ev", ctypes.c_uint16),
@@ -43,10 +43,10 @@ class PokemonGenI(PokeStructure):
 
 	@property
 	def xp(self):
-		return struct.unpack(">I", b'\0' + self.XParr.bytes())[0]
+		return struct.unpack(">I", b'\0' + self._xp.bytes())[0]
 
 	@xp.setter
 	def xp(self, value):
-		self.XParr = Pokearray(3).fromBytes(struct.pack(">I", value)[1:])
+		self._xp = Pokearray(3).fromBytes(struct.pack(">I", value)[1:])
 
 Pokemon = PokemonGenI

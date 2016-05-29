@@ -5,7 +5,7 @@ NULL       = "\0"
 JUNK       = "<JUNK>"
 TLC        = "⌜" # top left corner icon
 TRC        = "⌝"
-BLC        = "⌞" 
+BLC        = "⌞"
 BRC        = "⌟"
 SPACE      = " "
 PK         = "PK"
@@ -28,7 +28,7 @@ class holdover(object):
 		return "holdover(%s)" % self.s
 
 _ = holdover
-	
+
 def holdovers(*args):
 	return list(map(holdover, args))
 
