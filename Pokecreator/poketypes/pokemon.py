@@ -43,10 +43,10 @@ class PokemonGenI(PokeStructure):
 
 	@property
 	def xp(self):
-		return struct.unpack(">I", "\0" + self.XParr.toString())[0]
+		return struct.unpack(">I", b'\0' + self.XParr.bytes())[0]
 
 	@xp.setter
 	def xp(self, value):
-		self.XParr = Pokearray(3).fromString(struct.pack(">I", value)[1:])
+		self.XParr = Pokearray(3).fromBytes(struct.pack(">I", value)[1:])
 
 Pokemon = PokemonGenI

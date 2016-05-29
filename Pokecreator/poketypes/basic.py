@@ -1,30 +1,30 @@
 import ctypes
 
-import encoding
+from . import encoding
 
 class PokeStructure(ctypes.BigEndianStructure):
 
 	_pack_ = 1
 
 	@classmethod
-	def fromString(cls, data):
-		return cls.from_buffer(ctypes.create_string_buffer(data, len(data)))
+	def fromBytes(cls, data):
+		return cls.from_buffer_copy(data)
 
-	def toString(self):
+	def bytes(self):
 		return ctypes.string_at(ctypes.byref(self), ctypes.sizeof(self))
 
 def Pokearray(length):
 
 	@classmethod
-	def fromString(cls, data):
-		return cls(*map(ord, data))
+	def fromBytes(cls, data):
+		return cls(*data)
 
-	def toString(self):
-		return "".join(map(chr, self))
+	def asBytes(self):
+		return bytes(iter(self))
 
 	t = ctypes.c_uint8 * length
-	t.fromString = fromString
-	t.toString = toString
+	t.fromBytes = fromBytes
+	t.bytes = asBytes
 	return t
 
 def Pokestring(length):
@@ -32,19 +32,15 @@ def Pokestring(length):
 	@classmethod
 	def fromString(cls, data):
 		encoded = encoding.encode(data) + encoding.ENDCHAR
-		return cls(*map(ord, encoded[:length]))
+		return cls(*encoded[:length])
 
 	def toString(self):
-		encoded = "".join(map(chr, self)).partition(encoding.ENDCHAR)[0]
+		encoded = self.bytes().partition(encoding.ENDCHAR)[0]
 		return encoding.decode(encoded)
 
-	def bytes(self):
-		return "".join(map(chr, self))
-
-	t = ctypes.c_uint8 * length
+	t = Pokearray(length)
 	t.fromString = fromString
 	t.toString = toString
-	t.bytes = bytes
 	return t
 
 def PaddingBytes(length):

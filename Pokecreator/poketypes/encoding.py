@@ -13,7 +13,7 @@ MN         = "MN"
 POKEDOLLAR = "$"
 
 # Encoded constants
-ENDCHAR    = '\x50'
+ENDCHAR    = b'\x50'
 
 
 class holdover(object):
@@ -30,7 +30,7 @@ class holdover(object):
 _ = holdover
 	
 def holdovers(*args):
-	return map(holdover, args)
+	return list(map(holdover, args))
 
 
 control_characters = [""] * 24
@@ -54,9 +54,9 @@ char_set = [
       '\'',    PK,    MN,   '-', '\'r', '\'m',   '?',   '!',   '.',_('ァ'),_('ゥ'),_('ェ'),'▷',   '▶',   '▼',   '♂',    # E-
 POKEDOLLAR,   '×',   '.',   '/',   ',',   '♀',   '0',   '1',   '2',   '3',   '4',   '5',   '6',   '7',   '8',   '9']    # F-
 
-def decode(s):
-	return "".join(str(char_set[ord(c)]) for c in s)
+def decode(data):
+	return "".join(str(char_set[b]) for b in data)
 
 def encode(s):
-	return "".join(chr(char_set.index(c)) for c in s.encode('utf-8'))
+	return bytes(char_set.index(c) for c in s)
 

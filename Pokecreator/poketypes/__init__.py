@@ -1,7 +1,6 @@
 from .pokemon import *
 from .gamesave import *
 
-import encoding
-
 def loadGame(fileName):
-	return GameSave.fromString(open(fileName).read())
+	with open(fileName, "rb") as f:
+		return GameSave.fromBytes(f.read())

@@ -65,17 +65,17 @@ class GameSaveGenI(PokeStructure):
 		]
 
 	def _calcChecksum(self):
-		data = PokeStructure.toString(self)
-		sum = reduce(lambda acc, curr: (acc + curr) & 0xFF,
-						map(ord, data[0x2598:0x3522 + 1]),
-						0)
-		return ~sum & 255
+		sum = 0
+		for b in PokeStructure.bytes(self)[0x2598:0x3522 + 1]:
+			sum += b
+			sum &= 0xFF
+		return ~sum & 0xFF
 
-	def toString(self):
+	def bytes(self):
 		self.checksum = self._calcChecksum()
-		return PokeStructure.toString(self)
+		return PokeStructure.bytes(self)
 
 	def save(self, fileName):
-		open(fileName, "wb").write(self.toString())
+		open(fileName, "wb").write(self.bytes())
 
 GameSave = GameSaveGenI
