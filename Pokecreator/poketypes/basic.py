@@ -46,7 +46,6 @@ def Pokestring(length):
 	t.toString = toString
 	t.bytes = bytes
 	return t
-	
 
 def PaddingBytes(length):
 	return ("padding", Pokearray(length))
