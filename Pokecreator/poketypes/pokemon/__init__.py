@@ -2,6 +2,7 @@ import struct
 
 from ..basic import *
 from .species import Species
+from .moves import Move
 
 __all__ = ["Pokemon"]
 
@@ -18,10 +19,10 @@ class PokemonGenI(PokeStructure):
 			("type1", ctypes.c_uint8),
 			("type2", ctypes.c_uint8),
 			("catch_rate", ctypes.c_uint8),
-			("move1", ctypes.c_uint8),
-			("move2", ctypes.c_uint8),
-			("move3", ctypes.c_uint8),
-			("move4", ctypes.c_uint8),
+			("_move1", ctypes.c_uint8),
+			("_move2", ctypes.c_uint8),
+			("_move3", ctypes.c_uint8),
+			("_move4", ctypes.c_uint8),
 			("original_trainer", ctypes.c_uint16),
 			("_xp", Pokearray(3)),
 			("hp_ev", ctypes.c_uint16),
@@ -43,7 +44,11 @@ class PokemonGenI(PokeStructure):
 		]
 
 	_adapters_ = [
-			("_species", Species)
+			("_species", Species),
+			("_move1", Move),
+			("_move2", Move),
+			("_move3", Move),
+			("_move4", Move),
 		]
 
 	@property
