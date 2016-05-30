@@ -42,7 +42,7 @@ class PokemonGenI(PokeStructure):
 			("special", ctypes.c_uint16)
 		]
 
-	_enum_properties_ = [
+	_adapters_ = [
 			("_species", Species)
 		]
 

@@ -6,32 +6,31 @@ class PokeMetaStructure(type(ctypes.BigEndianStructure)):
 
 	def __new__(metacls, name, bases, dct):
 		cls = super().__new__(metacls, name, bases, dct)
-		for name, enumcls in cls._enum_properties_:
-			cls.buildProperty(name, enumcls)
+		for member, adapter_type in cls._adapters_:
+			cls.buildProperty(member, adapter_type)
 		return cls
 
-	def buildProperty(cls, name, enumcls):
+	def buildProperty(cls, member, adapter_type):
 
 		def get(self):
-			return enumcls(getattr(self, name))
+			return adapter_type(getattr(self, member))
 
 		def set(self, value):
-			if isinstance(value, enumcls):
-				setattr(self, name, value.value)
+			if isinstance(value, adapter_type):
+				setattr(self, member, value.value)
 			else:
-				setattr(self, name, value)
-
-		if name.startswith("_"):
-			property_name = name[1:]
+				setattr(self, member, value)
+		if member.startswith("_"):
+			property_name = member[1:]
 		else:
-			property_name = name + "_enum"
+			property_name = member + "_adapter"
 		setattr(cls, property_name, 
-				property(fget=get, fset=set, doc="Enum proxy to member %s" % name))
+				property(fget=get, fset=set, doc="%s adapter  to member %s" % (adapter_type.__name__, member)))
 
 class PokeStructure(ctypes.BigEndianStructure, metaclass=PokeMetaStructure):
 
 	_pack_ = 1
-	_enum_properties_ = []
+	_adapters_ = []
 
 	@classmethod
 	def fromBytes(cls, data):

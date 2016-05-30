@@ -156,7 +156,7 @@ class Item(PokeStructure):
 		("count", ctypes.c_uint8)
 	]
 
-	_enum_properties_ = [
+	_adapters_ = [
 		("_index", Index)
 	]
 

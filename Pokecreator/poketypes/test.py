@@ -33,7 +33,7 @@ class TestPokeStructure(unittest.TestCase):
 				("_fruit", ctypes.c_uint8),
 			]
 			
-			_enum_properties_ = [
+			_adapters_ = [
 				("_fruit", Fruit)
 			]
 
