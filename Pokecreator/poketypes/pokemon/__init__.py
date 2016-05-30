@@ -1,6 +1,7 @@
 import struct
 
-from .basic import *
+from ..basic import *
+from .species import Species
 
 __all__ = ["Pokemon"]
 
@@ -10,7 +11,7 @@ class PokemonGenI(PokeStructure):
     http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_data_structure_in_Generation_I"""
 
 	_fields_ = [
-			("species", ctypes.c_uint8),
+			("_species", ctypes.c_uint8),
 			("hp", ctypes.c_uint16),
 			("level0", ctypes.c_uint8),
 			("status", ctypes.c_uint8),
@@ -39,6 +40,10 @@ class PokemonGenI(PokeStructure):
 			("defense", ctypes.c_uint16),
 			("speed", ctypes.c_uint16),
 			("special", ctypes.c_uint16)
+		]
+
+	_enum_properties_ = [
+			("_species", Species)
 		]
 
 	@property

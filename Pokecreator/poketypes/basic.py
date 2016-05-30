@@ -42,6 +42,10 @@ class PokeStructure(ctypes.BigEndianStructure, metaclass=PokeMetaStructure):
 
 def Pokearray(length):
 
+	# okay, I learned. 
+	# It's not possible to use a custom base class
+	# in a ctypes.Structure field. Forget about it
+
 	@classmethod
 	def fromBytes(cls, data):
 		return cls(*data)
