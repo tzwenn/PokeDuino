@@ -5,6 +5,7 @@ from . import encoding, loadGame, item
 from .gamesave import GameSave
 from .basic import PokeStructure
 from .pokemon import experience
+from .pokemon import Species
 
 class TestEncoding(unittest.TestCase):
 
@@ -62,6 +63,17 @@ class TestPokemon(unittest.TestCase):
 		for xpClass in experience.ExperienceClass:
 			for level in range(2, 101):
 				self.assertEqual(level, experience.level_for_exp[xpClass](experience.exp_for_level[xpClass](level)))
+
+class TestSpecies(unittest.TestCase):
+
+	def test_normal_name(self):
+		self.assertEqual(Species.Mew.name, "Mew")
+		self.assertEqual(Species["Mew"], Species.Mew)
+	
+	def test_special_name(self):
+		self.assertEqual(Species.Mr_Mime.name, "Mr. Mime")
+		self.assertEqual(Species["Mr. Mime"], Species.Mr_Mime)
+
 
 class TestGameSave(unittest.TestCase):
 

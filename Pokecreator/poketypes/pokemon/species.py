@@ -1,24 +1,36 @@
 # -*- coding: utf-8 -*-
 
 import enum
+from types import DynamicClassAttribute
+
+__all__ = ["Species"]
+
+_special_names = None
+_special_names_rev = None
+
+def special_names():
+	global _special_names
+
+	if _special_names is None:
+		_special_names = {
+			"Nidoran♀": Species.Nidoran_f,
+			"Nidoran♂": Species.Nidoran_m,
+			"Farfetch'd": Species.Farfetchd,
+			"Mr. Mime": Species.Mr_Mime
+		}
+	return _special_names
+
+def special_names_rev():
+	global _special_names_rev
+	if _special_names_rev is None:
+		_special_names_rev = {v: k for k, v in special_names().items()}
+	return _special_names_rev
 
 class SpeciesMeta(type(enum.Enum)):
-
-	_special_names = None
 	
-	def special_names(cls):
-		if cls._special_names is None:
-			cls._special_names = {
-				"Nidoran♀": Species.Nidoran_f,
-				"Nidoran♂": Species.Nidoran_m,
-				"Farfetch'd": Species.Farfetchd,
-				"Mr. Mime": Species.Mr_Mime
-			}
-		return cls._special_names
-
 	def __getitem__(cls, name):
 		try:
-			return cls.special_names()[name]
+			return special_names()[name]
 		except KeyError:
 			return super().__getitem__(name)
 
@@ -215,3 +227,9 @@ class Species(enum.Enum, metaclass=SpeciesMeta):
 	Weepinbell, \
 	Victreebel = range(191)
 
+	@DynamicClassAttribute
+	def name(self):
+		try:
+			return special_names_rev()[self]
+		except KeyError:
+			return super().name
