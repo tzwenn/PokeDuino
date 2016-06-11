@@ -64,7 +64,7 @@ uint8_t PokemonCommunication(uint8_t in) {
         counter++;
       } else if(trade_centre_state == SENDING_DATA) {
         // if EEPROM is not initialised, please use the pgm data only.
-        if (counter == 12) {
+        /*if (counter == 12) {
           send = EEPROM.read(0); // pokemon species
         } else if(counter >= 19 && counter < 19+44) {
           send = EEPROM.read(counter-19); // pokemon data
@@ -72,9 +72,9 @@ uint8_t PokemonCommunication(uint8_t in) {
           send = EEPROM.read((counter-283)+44); // trainer name
         } else if(counter >= 349 && counter < 349+11) {
           send = EEPROM.read((counter-349)+44+11); // nickname
-        } else {
+        } else {*/
           send = pgm_read_byte(&(DATA_BLOCK[counter]));
-        }
+        //}
         INPUT_BLOCK[counter] = in;
         counter++;
         if(counter == PLAYER_LENGTH) {
