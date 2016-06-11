@@ -4,6 +4,8 @@ from ..basic import *
 from .species import Species
 from .moves import Move
 
+from . import experience
+
 __all__ = ["Pokemon"]
 
 class PokemonGenI(PokeStructure):

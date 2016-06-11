@@ -4,6 +4,7 @@ import os
 from . import encoding, loadGame, item
 from .gamesave import GameSave
 from .basic import PokeStructure
+from .pokemon import experience
 
 class TestEncoding(unittest.TestCase):
 
@@ -54,6 +55,13 @@ class TestPokeStructure(unittest.TestCase):
 	def test_item_enum(self):
 		pokeball = item.Item(item.Index.PokeBall.value, 1)
 		self.assertEqual(pokeball.index, item.Index.PokeBall)
+
+class TestPokemon(unittest.TestCase):
+
+	def test_xp_to_level_conversion(self):
+		for xpClass in experience.ExperienceClass:
+			for level in range(2, 101):
+				self.assertEqual(level, experience.level_for_exp[xpClass](experience.exp_for_level[xpClass](level)))
 
 class TestGameSave(unittest.TestCase):
 
