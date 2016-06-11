@@ -9,6 +9,7 @@ from .status import StatusField
 
 from . import experience
 from . import basestats
+from . import moves
 
 __all__ = ["Pokemon"]
 
@@ -52,6 +53,13 @@ class IV(object):
 		return "%s(attack: %d, defense: %d, speed: %d, special: %d, hp: %d)" % \
 			(self.__class__.__name__, self.attack, self.defense, self.speed, self.special, self.hp)
 
+class PP(PokeStructure):
+
+	_fields_ = [
+		("up", ctypes.c_uint8, 2),
+		("pp", ctypes.c_uint8, 6)
+	]
+
 class PokemonGenI(PokeStructure):
 
 	"""Pokemon data structure of Generation I according to
@@ -77,10 +85,10 @@ class PokemonGenI(PokeStructure):
 			("speed_ev", ctypes.c_uint16),
 			("special_ev", ctypes.c_uint16),
 			("_iv", ctypes.c_uint16),
-			("move1_pp", ctypes.c_uint8),
-			("move2_pp", ctypes.c_uint8),
-			("move3_pp", ctypes.c_uint8),
-			("move4_pp", ctypes.c_uint8),
+			("move1_pp", PP),
+			("move2_pp", PP),
+			("move3_pp", PP),
+			("move4_pp", PP),
 			("level", ctypes.c_uint8),
 			("max_hp", ctypes.c_uint16),
 			("attack", ctypes.c_uint16),
@@ -145,12 +153,28 @@ class PokemonGenI(PokeStructure):
 		self.speed = self._calc_stat("speed")
 		self.special = self._calc_stat("special")
 
+	def sanitize_pp(self):
+		self.move1_pp.pp = moves.pp_for_move[self.move1]
+		self.move2_pp.pp = moves.pp_for_move[self.move2]
+		self.move3_pp.pp = moves.pp_for_move[self.move3]
+		self.move4_pp.pp = moves.pp_for_move[self.move4]
+
 	def sanitize(self):
+		"""Adjust xp, types, hp, stats, pp to the values the game
+		   had calculated from species, level and moves"""
 		self.sanitize_xp()
 		self.sanitize_types()
 		self.sanitize_hp()
 		self.sanitize_stats()
+		self.sanitize_pp()
 		self.level0 = self.level
+
+	def heal(self):
+		"""Pokecenter! (and sanitize)"""
+		self.sanitize()
+		self.hp = self.max_hp
+		self.status = 0
+
 		
 
 Pokemon = PokemonGenI
