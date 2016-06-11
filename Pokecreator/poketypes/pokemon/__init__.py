@@ -3,6 +3,8 @@ import struct
 from ..basic import *
 from .species import Species
 from .moves import Move
+from .types import Type
+from .status import StatusField
 
 from . import experience
 
@@ -17,9 +19,9 @@ class PokemonGenI(PokeStructure):
 			("_species", ctypes.c_uint8),
 			("hp", ctypes.c_uint16),
 			("level0", ctypes.c_uint8),
-			("status", ctypes.c_uint8),
-			("type1", ctypes.c_uint8),
-			("type2", ctypes.c_uint8),
+			("_status", ctypes.c_uint8),
+			("_type1", ctypes.c_uint8),
+			("_type2", ctypes.c_uint8),
 			("catch_rate", ctypes.c_uint8),
 			("_move1", ctypes.c_uint8),
 			("_move2", ctypes.c_uint8),
@@ -47,10 +49,13 @@ class PokemonGenI(PokeStructure):
 
 	_adapters_ = [
 			("_species", Species),
+			("_status", StatusField),
+			("_type1", Type),
+			("_type2", Type),
 			("_move1", Move),
 			("_move2", Move),
 			("_move3", Move),
-			("_move4", Move),
+			("_move4", Move)
 		]
 
 	@property
@@ -60,5 +65,21 @@ class PokemonGenI(PokeStructure):
 	@xp.setter
 	def xp(self, value):
 		self._xp = Pokearray(3).fromBytes(struct.pack(">I", value)[1:])
+
+	def sanitize_xp(self):
+		"""Adjust xp according to level"""
+		xpClass = experience.class_for_species[self.species]
+		if self.level != experience.level_for_exp[xpClass](self.xp):
+			self.xp = experience.exp_for_level[xpClass](self.level)
+
+	def sanitize_types(self):
+		self.type1, self.type2 = types.type_for_species[self.species]
+
+	def sanitize(self):
+		self.sanitize_xp()
+		self.sanitize_types()
+		self.level0 = self.level
+		self.hp = min(self.hp, self.max_hp)
+		
 
 Pokemon = PokemonGenI

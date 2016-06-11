@@ -1,6 +1,28 @@
+# -*- coding: utf-8 -*-
+
 import enum
 
-class Species(enum.Enum):
+class SpeciesMeta(type(enum.Enum)):
+
+	_special_names = None
+	
+	def special_names(cls):
+		if cls._special_names is None:
+			cls._special_names = {
+				"Nidoran♀": Species.Nidoran_f,
+				"Nidoran♂": Species.Nidoran_m,
+				"Farfetch'd": Species.Farfetchd,
+				"Mr. Mime": Species.Mr_Mime
+			}
+		return cls._special_names
+
+	def __getitem__(cls, name):
+		try:
+			return cls.special_names()[name]
+		except KeyError:
+			return super().__getitem__(name)
+
+class Species(enum.Enum, metaclass=SpeciesMeta):
 	MissingNo_00, \
 	Rhydon, \
 	Kangaskhan, \
@@ -192,3 +214,4 @@ class Species(enum.Enum):
 	Bellsprout, \
 	Weepinbell, \
 	Victreebel = range(191)
+
