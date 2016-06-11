@@ -4,8 +4,7 @@ import os
 from . import encoding, loadGame, item
 from .gamesave import GameSave
 from .basic import PokeStructure
-from .pokemon import experience
-from .pokemon import Species
+from .pokemon import Pokemon, Species, experience
 
 class TestEncoding(unittest.TestCase):
 
@@ -74,6 +73,18 @@ class TestSpecies(unittest.TestCase):
 		self.assertEqual(Species.Mr_Mime.name, "Mr. Mime")
 		self.assertEqual(Species["Mr. Mime"], Species.Mr_Mime)
 
+	def test_stats(self):
+		"""According to example 1 from http://bulbapedia.bulbagarden.net/wiki/Individual_values#Usage"""
+		mewtwo = Pokemon()
+		mewtwo.species = Species.Mewtwo
+		mewtwo.level = 70
+		mewtwo.iv = 0b1110010110000110
+		mewtwo.sanitize()
+		self.assertEqual(mewtwo.max_hp, 234)
+		self.assertEqual(mewtwo.attack, 178)
+		self.assertEqual(mewtwo.defense, 138)
+		self.assertEqual(mewtwo.speed, 198)
+		self.assertEqual(mewtwo.special, 229)
 
 class TestGameSave(unittest.TestCase):
 
