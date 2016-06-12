@@ -56,8 +56,7 @@ def parseArguments():
 			action=FindSpeciesInPokedex,
 			help="Index number ")
 	parser.add_argument("--level", "-l", type=int,
-			default=5
-			)
+			default=5)
 	parser.add_argument("--original-trainer", "-o", type=int, default=0)
 
 	parser.add_argument("--moves", "-m", type=str,

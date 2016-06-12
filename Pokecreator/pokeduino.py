@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import sys
-import serial
 import enum
+import argparse
+import serial
 
 import poketypes
 
@@ -200,23 +201,52 @@ class PokemonSession(object):
 			self.receivePokemonHook(pokemon, ot_name, nickname)
 
 
-def receivedPokemon(pokemon, ot_name, nickname):
+def receivedPokemonHandler(pokemon, ot_name, nickname):
 	sys.stdout.buffer.write(pokemon.bytes())
 	print("Pushed a %s %sfrom %s to stdout" % \
 			(pokemon.species.name, "(called %s) " % nickname if nickname else "", ot_name),
 			file=sys.stderr)
 
+
+def parseArguments():
+	parser = argparse.ArgumentParser(
+			formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+			description="Trade a pokemon read from stdin over a arduino proxy. Received pokemon are printed to stdout"
+		)
+
+	parser.add_argument("--baudrate", "-b", type=int,
+			default=115200,
+			help="Baudrate of the serial connection")
+	parser.add_argument("--device", "-d", type=str,
+			default="/dev/tty.usbmodemfa131",
+			help="Device name of the serial port")
+
+	parser.add_argument("--trainer", "-t", type=str,
+			default="POKEDUINO",
+			help="The simulated gameboys player name")
+	parser.add_argument("--otname", "-o", type=str,
+			help="Original trainer name of the send pokemon (copies from --trainer if not specified)")
+	parser.add_argument("--nickname", "-n", type=str,
+			help="Nickname of the send pokemon")
+
+	try:
+		args = parser.parse_args()
+	except argparse.ArgumentTypeError as err:
+		parser.error(err)
+
+	if args.otname is None:
+		args.otname = args.trainer
+
+	return args
+
+
 if __name__ == "__main__":
-	dev = sys.argv[1] if len(sys.argv) > 2 else "/dev/tty.usbmodemfa131"
-	baud = int(sys.argv[2]) if len(sys.argv) > 3 else 115200
+	args = parseArguments()
 
 	pokemon = poketypes.Pokemon.fromBytes(sys.stdin.buffer.read())
-	#trainer_name = "POKEDUINO"
-	trainer_name = "ASH"
 
-	team = poketypes.Team([(pokemon, trainer_name, None)])
-	session = PokemonSession(trainer_name, team, receivedPokemon)
+	team = poketypes.Team([(pokemon, args.otname, None)])
+	session = PokemonSession(args.trainer, team, receivedPokemonHandler)
 
-	connect(dev, baud, session)
-
+	connect(args.device, args.baudrate, session)
 
