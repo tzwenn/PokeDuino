@@ -49,6 +49,9 @@ class IV(object):
 	def value(self):
 		return self.attack << 12 | self.defense << 8 | self.speed << 4 | self.special
 
+	def __int__(self):
+		return self.value
+
 	def __str__(self):
 		return "%s(attack: %d, defense: %d, speed: %d, special: %d, hp: %d)" % \
 			(self.__class__.__name__, self.attack, self.defense, self.speed, self.special, self.hp)
@@ -120,7 +123,11 @@ class PokemonGenI(PokeStructure):
 	####################
 
 	def __repr__(self):
-		return "%s.%s(species=%s, level=%d)" % (__name__, self.__class__.__name__, self.species, self.level)
+		
+		def field_str(attr):
+			return "%s=%d" % (attr, getattr(self, attr))
+
+		return "%s.%s(species=%s.%s, %s)" % (__name__, self.__class__.__name__, __name__, self.species, ", ".join(field_str(a) for a in ("level", "hp_ev", "attack_ev", "defense_ev", "speed_ev", "special_ev", "iv", "original_trainer")))
 
 	####################
 
