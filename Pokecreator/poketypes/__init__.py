@@ -1,6 +1,6 @@
 from .pokemon import *
 from .gamesave import *
-from .teamlist import *
+from .team import *
 from . import pokedex
 
 def loadGame(fileName):

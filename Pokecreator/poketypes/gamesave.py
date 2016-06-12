@@ -1,6 +1,6 @@
 from .basic import *
 from .pokemon import Pokemon
-from .teamlist import TeamList
+from .team import Team
 from .item import ItemList
 
 __all__ = ["GameSave"]
@@ -34,7 +34,7 @@ class GameSaveGenI(PokeStructure):
 				PaddingBytes(1180),
 			("time_played", ctypes.c_uint32),
 				PaddingBytes(570),
-			("team", TeamList),
+			("team", Team),
 			("current_box", PokemonBox),
 				PaddingBytes(1),
 			("checksum", ctypes.c_uint8),

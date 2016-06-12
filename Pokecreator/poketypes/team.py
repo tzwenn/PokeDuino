@@ -1,9 +1,9 @@
 from .basic import *
 from .pokemon import Pokemon
 
-__all__ = ["TeamList"]
+__all__ = ["Team"]
 
-class TeamList(PokeStructure):
+class Team(PokeStructure):
 
 	TERMINATOR = 0xFF
 
