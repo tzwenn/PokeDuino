@@ -60,8 +60,10 @@ def Pokearray(length):
 def Pokestring(length):
 
 	@classmethod
-	def fromString(cls, data):
+	def fromString(cls, data, fillUp=False):
 		encoded = encoding.encode(data) + encoding.ENDCHAR
+		if fillUp:
+			encoded = encoded.ljust(length, encoding.ENDCHAR)
 		return cls(*encoded[:length])
 
 	def toString(self):

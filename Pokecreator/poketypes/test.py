@@ -106,6 +106,13 @@ class TestGameSave(unittest.TestCase):
 		firstItem = self.save.pocket_item_list.entries[0]
 		self.assertEqual(firstItem.index, item.Index.Potion)
 
+	def test_second_pokemon_in_team(self):
+		pokemon, ot, nickname = self.save.team[1]
+		self.assertEqual(pokemon.species.value, self.save.team.species_list[1])
+		self.assertEqual(pokemon.species, Species.Rattata)
+		self.assertEqual(ot, "Trainer")
+		self.assertEqual(nickname, "SQUEAK")
+
 if __name__ == "__main__":
 	unittest.main()
 

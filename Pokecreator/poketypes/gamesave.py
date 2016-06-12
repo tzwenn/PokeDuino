@@ -1,18 +1,9 @@
 from .basic import *
 from .pokemon import Pokemon
+from .teamlist import TeamList
 from .item import ItemList
 
 __all__ = ["GameSave"]
-
-class PokemonTeamList(PokeStructure):
-
-	_fields_ = [
-			("entries_used", ctypes.c_uint8),
-			("species_list", Pokearray(7)),
-			("pokemon_list", Pokemon * 6),
-			("ot_names", Pokearray(66)),
-			("pokemon_names", Pokearray(66))
-		]
 
 PokemonBox = Pokearray(1122)
 
@@ -43,7 +34,7 @@ class GameSaveGenI(PokeStructure):
 				PaddingBytes(1180),
 			("time_played", ctypes.c_uint32),
 				PaddingBytes(570),
-			("team", PokemonTeamList),
+			("team", TeamList),
 			("current_box", PokemonBox),
 				PaddingBytes(1),
 			("checksum", ctypes.c_uint8),
@@ -79,3 +70,4 @@ class GameSaveGenI(PokeStructure):
 		open(fileName, "wb").write(self.bytes())
 
 GameSave = GameSaveGenI
+
