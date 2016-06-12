@@ -245,7 +245,7 @@ if __name__ == "__main__":
 
 	pokemon = poketypes.Pokemon.fromBytes(sys.stdin.buffer.read())
 
-	team = poketypes.Team([(pokemon, args.otname, None)])
+	team = poketypes.Team([(pokemon, args.otname, args.nickname)])
 	session = PokemonSession(args.trainer, team, receivedPokemonHandler)
 
 	connect(args.device, args.baudrate, session)
