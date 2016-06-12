@@ -1,7 +1,7 @@
-from .species import Species
+from .pokemon.species import Species
 
 national = [
-	Sepcies.MissingNo_00,
+	Species.MissingNo_00,
 	Species.Bulbasaur,
 	Species.Ivysaur,
 	Species.Venusaur,

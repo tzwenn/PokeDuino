@@ -120,7 +120,7 @@ class PokemonGenI(PokeStructure):
 	####################
 
 	def __repr__(self):
-		return "%s.%s(species=%s, level=%d)" % (__name__, self.__class__.__name__, str(self.species), self.level)
+		return "%s.%s(species=%s, level=%d)" % (__name__, self.__class__.__name__, self.species, self.level)
 
 	####################
 
