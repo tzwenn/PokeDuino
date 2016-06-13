@@ -88,7 +88,7 @@ class TestSpecies(unittest.TestCase):
 
 class TestGameSave(unittest.TestCase):
 
-	batterySaveFileName = os.path.join(os.path.dirname(__file__), "..", "testdata.sav")
+	batterySaveFileName = os.path.join(os.path.dirname(__file__), "testdata.sav")
 
 	def setUp(self):
 		self.save = loadGame(self.batterySaveFileName)
