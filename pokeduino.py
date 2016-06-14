@@ -211,7 +211,7 @@ def receivedPokemonHandler(pokemon, ot_name, nickname):
 def parseArguments():
 	parser = argparse.ArgumentParser(
 			formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-			description="Trade a pokemon read from stdin over a arduino proxy. Received pokemon are printed to stdout"
+			description="Trade a Pokemon read from stdin over an Arduino proxy. Received Pokemon are printed to stdout."
 		)
 
 	parser.add_argument("--baudrate", "-b", type=int,

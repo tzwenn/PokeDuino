@@ -4,7 +4,7 @@ Generate a Generation I Pokemon on your computer and transfer it to a GameBoy us
 
 ## Setup
 
-Cut and strip a Game Link Cable open and solder the inner wires onto jumper cables that you can connect to your Arduino.
+Cut and strip a Game Link Cable open. Solder the inner wires onto jumper cables that you can connect to your Arduino.
 
      ___________
     |  6  *  2  |
@@ -39,7 +39,7 @@ See ```--help``` for a comprehensive list of specifiable fields and trade option
 
 #### Note for non-English games
 
-Nicknames are species names are a mess.
+Nicknames and species names are a mess.
 
 When you use a non-English game, you'll need to set the Pokemon's nickname to match your uppercase native species translation. Otherwise the Pokemon will stick with its English species name as nickname.
 

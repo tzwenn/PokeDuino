@@ -102,7 +102,7 @@ def createPokemon(args):
 			original_trainer=args.original_trainer
 		)
 	pokemon.move1, pokemon.move2, pokemon.move3, pokemon.move4 = args.moves
-	pokemon.move1_pp.up, pokemon.move1_pp.up, pokemon.move1_pp.up, pokemon.move1_pp.up = args.pp_ups
+	pokemon.move1_pp.up, pokemon.move2_pp.up, pokemon.move3_pp.up, pokemon.move4_pp.up = args.pp_ups
 	pokemon.heal()
 	return pokemon
 

@@ -39,6 +39,9 @@ class PokeStructure(ctypes.BigEndianStructure, metaclass=PokeMetaStructure):
 	def bytes(self):
 		return ctypes.string_at(ctypes.byref(self), ctypes.sizeof(self))
 
+	def bytecount(self):
+		return ctypes.sizeof(self)
+
 def Pokearray(length):
 
 	# okay, I learned. 
